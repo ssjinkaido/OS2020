@@ -1,4 +1,4 @@
 # OS2020
 
-Daniel Hagimont
-hagimont@enseeiht.fr
+Nguyen Xuan Tung
+tungnx.bi10-188@st.usth.edu.vn
