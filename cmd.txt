@@ -1,0 +1,131 @@
+1)Command:find D1 -name core -print
+Output:
+D1/core
+D1/D2/core
+
+Command:find D1 -name core -exec rm -f {} \;
+Command:tree D1
+Output:
+D1
+└── D2
+
+2)
+Command:vi file
+Command: cat file
+Output:hello
+Command:chmod +x file
+Command: ls -l
+Output:-rwxrwxr-x 1 tung tung     6 Nov 18 06:26 file
+
+
+Command:ls -l
+Output:
+total 28
+-rw-rw-r-- 1 tung tung     0 Nov 18 05:03 core
+-rw-rw-r-- 1 tung tung    12 Nov 17 02:02 core1.txt
+-rw-rw-r-- 1 tung tung     0 Nov 17 02:00 core2.txt
+-rw-rw-r-- 1 tung tung 10240 Nov 18 05:32 Core.tar
+-rw-rw-r-- 1 tung tung    12 Nov 17 02:02 core.txt
+drwxrwxr-x 3 tung tung  4096 Nov 18 05:05 D1
+drwxrwxr-x 2 tung tung  4096 Nov 18 05:53 dir
+Command:chmod -x dir
+Command:-ls l
+total 28
+-rw-rw-r-- 1 tung tung     0 Nov 18 05:03 core
+-rw-rw-r-- 1 tung tung    12 Nov 17 02:02 core1.txt
+-rw-rw-r-- 1 tung tung     0 Nov 17 02:00 core2.txt
+-rw-rw-r-- 1 tung tung 10240 Nov 18 05:32 Core.tar
+-rw-rw-r-- 1 tung tung    12 Nov 17 02:02 core.txt
+drwxrwxr-x 3 tung tung  4096 Nov 18 05:05 D1
+drw-rw-r-- 2 tung tung  4096 Nov 18 05:53 dir
+Command: cd dir
+Output:-bash: cd: dir: Permission denied
+Command: chmod +x dir
+Command: cd dir
+oOutput:tung@ubuntu:~/Desktop/cmds/dir$
+
+3)Command:grep hello core.txt
+Output:
+hello world
+
+4)Command:xclock &
+Output:[1] 3173
+Command:$ ps
+Output:
+    PID TTY          TIME CMD
+   2808 pts/0    00:00:00 bash
+   3173 pts/0    00:00:00 xclock
+   3174 pts/0    00:00:00 ps
+Command:kill -term 3173
+Output:    PID TTY          TIME CMD
+   2808 pts/0    00:00:00 bash
+   3175 pts/0    00:00:00 ps
+[1]+  Terminated              xclock
+
+5)Command:ln core.txt core1.txt
+Command:cat core.txt
+Output:
+hello world
+Command:cat core1.txt
+Output:
+hello world
+
+6)Command:sudo apt-get install openssh-server
+7)Command:ssh localhost
+Output:
+Welcome to Ubuntu 20.04.1 LTS (GNU/Linux 5.4.0-53-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+24 updates can be installed immediately.
+11 of these updates are security updates.
+To see these additional updates run: apt list --upgradable
+
+Your Hardware Enablement Stack (HWE) is supported until April 2025.
+Last login: Tue Nov 17 02:43:44 2020 from 127.0.0.1
+
+8)Command:wget http://world.std.com/world/about.html --no-check-certificate
+Output:--2020-11-18 05:27:03--  http://world.std.com/world/about.html
+Resolving world.std.com (world.std.com)... 192.74.137.5
+Connecting to world.std.com (world.std.com)|192.74.137.5|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://theworld.com/world/about.html [following]
+--2020-11-18 05:27:04--  https://theworld.com/world/about.html
+Resolving theworld.com (theworld.com)... 192.74.137.5
+Connecting to theworld.com (theworld.com)|192.74.137.5|:443... connected.
+WARNING: cannot verify theworld.com's certificate, issued by ‘CN=Sectigo RSA Organization Validation Secure Server CA,O=Sectigo Limited,L=Salford,ST=Greater Manchester,C=GB’:
+  Unable to locally verify the issuer's authority.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+Saving to: ‘about.html.1’
+
+about.html.1            [   <=>              ]  25.67K  17.1KB/s    in 1.5s  
+2020-11-18 05:27:10 (17.1 KB/s) - ‘about.html.1’ saved [26285]
+Command:ls
+Output:
+about.html    Desktop    Downloads  Pictures  snap       Videos
+about.html.1  Documents  Music      Public    Templates
+
+9)Command:tar cvf Core.tar core1.txt core2.txt
+Output:
+core1.txt
+core2.txt
+Command:tar xvf Core.tar
+Output:
+core1.txt
+core2.txt
+
+10)Command:ps -ef | grep firefox
+Output:tung        7465    1367 26 05:37 ?        00:00:07 /usr/lib/firefox/firefox -new-window
+tung        7696    7465 17 05:37 ?        00:00:04 /usr/lib/firefox/firefox -contentproc -childID 1 -isForBrowser -prefsLen 1 -prefMapSize 227680 -parentBuildID 20201112153044 -appdir /usr/lib/firefox/browser 7465 true tab
+tung        7730    7465  8 05:37 ?        00:00:02 /usr/lib/firefox/firefox -contentproc -childID 2 -isForBrowser -prefsLen 6391 -prefMapSize 227680 -parentBuildID 20201112153044 -appdir /usr/lib/firefox/browser 7465 true tab
+tung        7746    7465  1 05:37 ?        00:00:00 /usr/lib/firefox/firefox -contentproc -childID 3 -isForBrowser -prefsLen 6391 -prefMapSize 227680 -parentBuildID 20201112153044 -appdir /usr/lib/firefox/browser 7465 true tab
+tung        7810    7465  0 05:37 ?        00:00:00 /usr/lib/firefox/firefox -contentproc -childID 4 -isForBrowser -prefsLen 7189 -prefMapSize 227680 -parentBuildID 20201112153044 -appdir /usr/lib/firefox/browser 7465 true tab
+tung        7855    7465  2 05:37 ?        00:00:00 /usr/lib/firefox/firefox -contentproc -parentBuildID 20201112153044 -prefsLen 7387 -prefMapSize 227680 -appdir /usr/lib/firefox/browser 7465 true rdd
+tung        7908    4042  0 05:37 pts/2    00:00:00 grep --color=auto firefox
+Command:ps -ef | grep firefox | wc -l
+Output:6
+
+
