@@ -33,7 +33,6 @@ void change_dir(char *param) {
 		perror("cd failed (getcwd)");
 		return;
 	}
-	
 	if (!param) path = getenv("HOME");
 	else 
 		if (strncmp(param,"/",1)) {
@@ -164,7 +163,7 @@ int main()
 				}
 				else if (pid==0){
 					dup2(fd_in,0);
-					if(j+1!=3){
+					if(j+1!=k+1){
 						dup2(p[1],1);
 					}
 					close(p[0]);
