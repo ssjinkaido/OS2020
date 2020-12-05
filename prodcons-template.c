@@ -76,8 +76,8 @@ void produce () {
 	buffer [in] = true;
 	in = (in + 1) % BUFFER_SIZE;
 	count++;
-	display();
 	pthread_cond_signal(&products);
+	display();
 	pthread_mutex_unlock(&mutex);
 	pthread_exit(NULL);
 }
@@ -117,25 +117,25 @@ void *producer(void *threadid)
 }
 
 int main() {
-   init();
-   // you must re-implement this function
-   // it should create a number of threads that execute the comsumer and producer routines
-   pthread_t pro[50],con[50];
+	init();
+	// you must re-implement this function
+	// it should create a number of threads that execute the comsumer and producer routines
+   pthread_t pro[100],con[100];
    /* Initialize mutex and condition variable objects */
    
    int i;
    /* Wait for all threads to complete */
-   for(int i = 0; i < 50; i++) {
+   for(int i = 0; i < 100; i++) {
         pthread_create(&pro[i], NULL, (void *)producer, NULL);
     }
-    for(int i = 0; i < 50; i++) {
+    for(int i = 0; i < 100; i++) {
         pthread_create(&con[i], NULL, (void *)consumer, NULL);
     }
 
-    for(int i = 0; i < 50; i++) {
+    for(int i = 0; i < 100; i++) {
         pthread_join(pro[i], NULL);
     }
-    for(int i = 0; i < 50; i++) {
+    for(int i = 0; i < 100; i++) {
         pthread_join(con[i], NULL);
     }
    pthread_mutex_destroy(&mutex);
@@ -143,6 +143,3 @@ int main() {
    pthread_cond_destroy (&freeslots);
    pthread_exit(NULL);
 }
-
-
-
