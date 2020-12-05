@@ -6,7 +6,7 @@
 
 #define NBC 2
 #define NBP 2
-
+#define NUMTHREADS 100
 #define BUFFER_SIZE 20
 #define boolean int
 #define true 1
@@ -65,7 +65,7 @@ void sleep() {
 }
          
 	
-void produce () {
+void produce (void *pno) {
 	// you must re-implement this function
 	// it should synchronize access to the shared buffer
 	pthread_mutex_lock(&mutex);
@@ -74,6 +74,7 @@ void produce () {
 	}
 	printf("I am producing ...\n");
 	buffer [in] = true;
+	printf("Producer %d: Insert Item %d at %d\n", *((int *)pno),buffer[in],in);
 	in = (in + 1) % BUFFER_SIZE;
 	count++;
 	pthread_cond_signal(&products);
@@ -82,7 +83,7 @@ void produce () {
 	pthread_exit(NULL);
 }
 
-void consume () {
+void consume (void *cno) {
 	// you must re-implement this function
 	// it should synchronize access to the shared buffer
 	pthread_mutex_lock(&mutex);
@@ -91,6 +92,7 @@ void consume () {
 	}
 	printf("I am consuming ...\n");
 	buffer[out] = false;
+	printf("Consumer %d: Remove Item %d from %d\n",*((int *)cno),buffer[out], out);
 	out = (out + 1) % BUFFER_SIZE;
 	count--;
 	pthread_cond_broadcast(&freeslots);
@@ -103,7 +105,7 @@ void consume () {
 void *consumer(void *threadid)
 {
    for(;;) {
-	consume();
+	consume(&threadid);
 	sleep();
    }
 }
@@ -111,31 +113,34 @@ void *consumer(void *threadid)
 void *producer(void *threadid)
 {
    for(;;) {
-	produce();
+	produce(&threadid);
 	sleep();
    }
 }
 
 int main() {
-	init();
-	// you must re-implement this function
-	// it should create a number of threads that execute the comsumer and producer routines
-   pthread_t pro[100],con[100];
+   init();
+   // you must re-implement this function
+   // it should create a number of threads that execute the comsumer and producer routines
+   pthread_t pro[NUMTHREADS],con[NUMTHREADS];
    /* Initialize mutex and condition variable objects */
-   
+   int a[NUMTHREADS];
+   for(int i=0;i<NUMTHREADS;i++){
+   		a[i]=i;
+   }
    int i;
    /* Wait for all threads to complete */
-   for(int i = 0; i < 100; i++) {
-        pthread_create(&pro[i], NULL, (void *)producer, NULL);
+   for(int i = 0; i < NUMTHREADS; i++) {
+        pthread_create(&pro[i], NULL, (void *)producer, (void *)&a[i]);
     }
-    for(int i = 0; i < 100; i++) {
-        pthread_create(&con[i], NULL, (void *)consumer, NULL);
+    for(int i = 0; i < NUMTHREADS; i++) {
+        pthread_create(&con[i], NULL, (void *)consumer, (void *)&a[i]);
     }
 
-    for(int i = 0; i < 100; i++) {
+    for(int i = 0; i < NUMTHREADS; i++) {
         pthread_join(pro[i], NULL);
     }
-    for(int i = 0; i < 100; i++) {
+    for(int i = 0; i < NUMTHREADS; i++) {
         pthread_join(con[i], NULL);
     }
    pthread_mutex_destroy(&mutex);
@@ -143,3 +148,6 @@ int main() {
    pthread_cond_destroy (&freeslots);
    pthread_exit(NULL);
 }
+
+
+
